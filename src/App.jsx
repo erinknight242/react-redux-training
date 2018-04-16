@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from 'reactstrap';
 
 class App extends React.Component {
   constructor() {
@@ -9,9 +10,23 @@ class App extends React.Component {
     };
   }
 
+  handleClick = () => {
+    this.setState({
+      count: this.state.count + 1,
+    });
+  }
+
   render() {
     return (
-      <h1>Hello, Component!</h1>
+      <div className="container">
+        <h1>Count: {this.state.count}</h1>
+        <Button
+          color="primary"
+          onClick={this.handleClick}
+        >
+          Add One
+        </Button>
+      </div>
     );
   }
 }
