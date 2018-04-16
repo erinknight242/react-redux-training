@@ -7,6 +7,9 @@
     "start": "webpack-dev-server",
     "test": "jest"
   },
+  "jest": {
+    "setupTestFrameworkScriptFile": "./utilities/setupTests.js"
+  },
   "dependencies": {
     "bootstrap": "^4.0.0",
     "enzyme": "^3.3.0",
