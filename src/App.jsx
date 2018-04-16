@@ -1,7 +1,19 @@
 import React from 'react';
 
-const App = () => (
-  <h1>Hello, Component!</h1>
-);
+class App extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      count: 0,
+    };
+  }
+
+  render() {
+    return (
+      <h1>Hello, Component!</h1>
+    );
+  }
+}
 
 export default App;
