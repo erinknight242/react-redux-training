@@ -1,15 +1,7 @@
 import React from 'react';
-import { Button } from 'reactstrap';
+import Board from './Board';
 
 class App extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      count: 0,
-    };
-  }
-
   handleClick = () => {
     this.setState({
       count: this.state.count + 1,
@@ -19,13 +11,11 @@ class App extends React.Component {
   render() {
     return (
       <div className="container">
-        <h1>Count: {this.state.count}</h1>
-        <Button
-          color="primary"
-          onClick={this.handleClick}
-        >
-          Add One
-        </Button>
+        <div className="game">
+          <div className="game-board">
+            <Board />
+          </div>
+        </div>
       </div>
     );
   }
