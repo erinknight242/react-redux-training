@@ -1,6 +1,27 @@
 import React from 'react';
 import Square from './Square';
 
+const calculateWinner = (squares) => {
+  const lines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+
+  for (let i = 0; i < lines.length; i++) {
+    const [a, b, c] = lines[i];
+    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+      return squares[a];
+    }
+  }
+  return null;
+};
+
 class Board extends React.Component {
   constructor() {
     super();
@@ -8,19 +29,24 @@ class Board extends React.Component {
     this.state = {
       squares: Array(9).fill(null),
       nextPlayer: 'X',
+      turnsPlayed: 0,
     };
   }
 
   handleClick = (i) => {
-    const { squares, nextPlayer } = this.state;
+    const { squares, nextPlayer, turnsPlayed } = this.state;
+
     const updatedSquares = [...squares];
-    if (squares[i] === null) {
-      updatedSquares[i] = nextPlayer;
-      this.setState({
-        squares: updatedSquares,
-        nextPlayer: nextPlayer === 'X' ? 'O' : 'X',
-      });
+    if (calculateWinner(squares) || squares[i]) {
+      return;
     }
+
+    updatedSquares[i] = nextPlayer;
+    this.setState({
+      squares: updatedSquares,
+      nextPlayer: nextPlayer === 'X' ? 'O' : 'X',
+      turnsPlayed: turnsPlayed + 1,
+    });
   }
 
   renderSquare = i => (
@@ -31,7 +57,18 @@ class Board extends React.Component {
   )
 
   render() {
-    const status = `Next player: ${this.state.nextPlayer}`;
+    const { squares, turnsPlayed, nextPlayer } = this.state;
+
+    const winner = calculateWinner(squares);
+
+    let status;
+    if (winner) {
+      status = `Winner: ${winner}`;
+    } else if (turnsPlayed === 9) {
+      status = 'Cats game!';
+    } else {
+      status = `Next player: ${nextPlayer}`;
+    }
 
     return (
       <div>
