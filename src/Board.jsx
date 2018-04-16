@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from 'reactstrap';
 import Square from './Square';
 
 const calculateWinner = (squares) => {
@@ -22,14 +23,18 @@ const calculateWinner = (squares) => {
   return null;
 };
 
+const initialState = {
+  squares: Array(9).fill(null),
+  nextPlayer: 'X',
+  turnsPlayed: 0,
+};
+
 class Board extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      squares: Array(9).fill(null),
-      nextPlayer: 'X',
-      turnsPlayed: 0,
+      ...initialState,
     };
   }
 
@@ -49,6 +54,12 @@ class Board extends React.Component {
     });
   }
 
+  handleNewGame = () => {
+    this.setState({
+      ...initialState,
+    });
+  }
+
   renderSquare = i => (
     <Square
       value={this.state.squares[i]}
@@ -60,6 +71,7 @@ class Board extends React.Component {
     const { squares, turnsPlayed, nextPlayer } = this.state;
 
     const winner = calculateWinner(squares);
+    const gameIsOver = winner || turnsPlayed === 9;
 
     let status;
     if (winner) {
@@ -88,6 +100,12 @@ class Board extends React.Component {
           {this.renderSquare(7)}
           {this.renderSquare(8)}
         </div>
+        {gameIsOver && <Button
+          color="primary"
+          onClick={this.handleNewGame}
+        >
+          New Game
+        </Button>}
       </div>
     );
   }
