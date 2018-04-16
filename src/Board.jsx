@@ -7,16 +7,22 @@ class Board extends React.Component {
 
     this.state = {
       squares: Array(9).fill(null),
+      nextPlayer: 'X',
     };
   }
 
   handleClick = (i) => {
-    const squares = [...this.state.squares];
-    squares[i] = 'X';
-    this.setState({ squares });
+    const { squares, nextPlayer } = this.state;
+    const updatedSquares = [...squares];
+    if (squares[i] === null) {
+      updatedSquares[i] = nextPlayer;
+      this.setState({
+        squares: updatedSquares,
+        nextPlayer: nextPlayer === 'X' ? 'O' : 'X',
+      });
+    }
   }
 
-  // no longer a static method
   renderSquare = i => (
     <Square
       value={this.state.squares[i]}
@@ -25,7 +31,7 @@ class Board extends React.Component {
   )
 
   render() {
-    const status = 'Next player: X';
+    const status = `Next player: ${this.state.nextPlayer}`;
 
     return (
       <div>
